@@ -91,8 +91,7 @@ This is a project where open-source AI isn't a nice-to-have — it's a *requirem
 
 ## GitHub / Project Repository Link
 
-<!-- TODO: Replace with actual GitHub URL after pushing -->
-- [Link to GitHub Repository](https://github.com/PLACEHOLDER/logsloth)
+- [LogSloth on GitHub (Open Source, MIT License)](https://github.com/shauryamalhotra957-wq/logsloth)
 
 ---
 

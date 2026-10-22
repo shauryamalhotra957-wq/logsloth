@@ -116,7 +116,7 @@ LogSloth uses an open-weight model for critical reasons:
 
 ```powershell
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/logsloth.git
+git clone https://github.com/shauryamalhotra957-wq/logsloth.git
 cd logsloth
 
 # Create and activate virtual environment
@@ -131,7 +131,7 @@ pip install -r requirements.txt
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/logsloth.git
+git clone https://github.com/shauryamalhotra957-wq/logsloth.git
 cd logsloth
 
 # Create and activate virtual environment
