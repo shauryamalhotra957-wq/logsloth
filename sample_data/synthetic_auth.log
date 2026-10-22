@@ -1,0 +1,80 @@
+# ============================================================================
+# LogSloth — Synthetic SSH Authentication Log Sample
+# ============================================================================
+# This is a SYNTHETIC dataset created for demonstration and testing purposes.
+# It does NOT represent real authentication events from any actual server.
+#
+# All IP addresses use documentation-only ranges (RFC 5737):
+#   - 192.0.2.0/24    (TEST-NET-1)
+#   - 198.51.100.0/24 (TEST-NET-2)
+#   - 203.0.113.0/24  (TEST-NET-3)
+#
+# All hostnames, usernames, and timestamps are fictional.
+# ============================================================================
+
+Oct 21 06:12:01 webserver sshd[10234]: Failed password for invalid user admin from 203.0.113.10 port 42210 ssh2
+Oct 21 06:12:03 webserver sshd[10234]: Invalid user admin from 203.0.113.10 port 42210
+Oct 21 06:12:05 webserver sshd[10235]: Failed password for invalid user root from 203.0.113.10 port 42214 ssh2
+Oct 21 06:12:08 webserver sshd[10236]: Failed password for invalid user test from 203.0.113.10 port 42218 ssh2
+Oct 21 06:12:10 webserver sshd[10237]: Failed password for invalid user user from 203.0.113.10 port 42222 ssh2
+Oct 21 06:12:13 webserver sshd[10238]: Failed password for invalid user oracle from 203.0.113.10 port 42226 ssh2
+Oct 21 06:12:16 webserver sshd[10239]: Failed password for invalid user postgres from 203.0.113.10 port 42230 ssh2
+Oct 21 06:12:18 webserver sshd[10240]: Failed password for invalid user mysql from 203.0.113.10 port 42234 ssh2
+Oct 21 06:12:20 webserver sshd[10241]: Failed password for invalid user ubuntu from 203.0.113.10 port 42238 ssh2
+Oct 21 06:12:22 webserver sshd[10242]: Disconnected from authenticating user admin 203.0.113.10 port 42210 [preauth]
+Oct 21 06:12:25 webserver sshd[10243]: Failed password for invalid user ftpuser from 203.0.113.10 port 42242 ssh2
+Oct 21 06:12:28 webserver sshd[10244]: Failed password for invalid user guest from 203.0.113.10 port 42246 ssh2
+Oct 21 06:12:30 webserver sshd[10244]: Disconnecting authenticating user guest: too many authentication failures for invalid user guest from 203.0.113.10 port 42246 ssh2
+Oct 21 06:25:01 webserver sshd[10301]: Accepted publickey for deploy from 192.0.2.50 port 55100 ssh2
+Oct 21 06:25:02 webserver sshd[10301]: pam_unix(sshd:session): session opened for user deploy(uid=1001) by (uid=0)
+Oct 21 06:30:15 webserver sshd[10301]: pam_unix(sshd:session): session closed for user deploy
+Oct 21 07:00:00 webserver sshd[10400]: Failed password for root from 198.51.100.25 port 33100 ssh2
+Oct 21 07:00:05 webserver sshd[10401]: Failed password for root from 198.51.100.25 port 33104 ssh2
+Oct 21 07:00:10 webserver sshd[10402]: Failed password for root from 198.51.100.25 port 33108 ssh2
+Oct 21 07:00:15 webserver sshd[10403]: Failed password for root from 198.51.100.25 port 33112 ssh2
+Oct 21 07:00:20 webserver sshd[10404]: Failed password for root from 198.51.100.25 port 33116 ssh2
+Oct 21 07:00:25 webserver sshd[10405]: Failed password for root from 198.51.100.25 port 33120 ssh2
+Oct 21 07:00:30 webserver sshd[10406]: Failed password for root from 198.51.100.25 port 33124 ssh2
+Oct 21 07:00:35 webserver sshd[10407]: Failed password for root from 198.51.100.25 port 33128 ssh2
+Oct 21 07:00:40 webserver sshd[10408]: Failed password for root from 198.51.100.25 port 33132 ssh2
+Oct 21 07:00:45 webserver sshd[10409]: Failed password for root from 198.51.100.25 port 33136 ssh2
+Oct 21 07:00:50 webserver sshd[10410]: Disconnecting authenticating user root: too many authentication failures for root from 198.51.100.25 port 33136 ssh2
+Oct 21 07:01:00 webserver sshd[10410]: Connection closed by 198.51.100.25 port 33136 [preauth]
+Oct 21 08:15:01 webserver sshd[10500]: Invalid user nagios from 203.0.113.45 port 44000
+Oct 21 08:15:03 webserver sshd[10501]: Failed password for invalid user nagios from 203.0.113.45 port 44000 ssh2
+Oct 21 08:15:06 webserver sshd[10502]: Invalid user zabbix from 203.0.113.45 port 44004
+Oct 21 08:15:08 webserver sshd[10503]: Failed password for invalid user zabbix from 203.0.113.45 port 44004 ssh2
+Oct 21 08:15:11 webserver sshd[10504]: Invalid user jenkins from 203.0.113.45 port 44008
+Oct 21 08:15:13 webserver sshd[10505]: Failed password for invalid user jenkins from 203.0.113.45 port 44008 ssh2
+Oct 21 08:15:16 webserver sshd[10506]: Invalid user git from 203.0.113.45 port 44012
+Oct 21 08:15:18 webserver sshd[10507]: Failed password for invalid user git from 203.0.113.45 port 44012 ssh2
+Oct 21 08:15:20 webserver sshd[10508]: Connection closed by 203.0.113.45 port 44012 [preauth]
+Oct 21 09:00:00 webserver sshd[10600]: Accepted password for alice from 192.0.2.100 port 55200 ssh2
+Oct 21 09:00:01 webserver sshd[10600]: pam_unix(sshd:session): session opened for user alice(uid=1002) by (uid=0)
+Oct 21 09:45:00 webserver sshd[10600]: pam_unix(sshd:session): session closed for user alice
+Oct 21 10:30:00 webserver sshd[10700]: Failed password for alice from 203.0.113.99 port 60100 ssh2
+Oct 21 10:30:05 webserver sshd[10701]: Failed password for alice from 203.0.113.99 port 60104 ssh2
+Oct 21 10:30:10 webserver sshd[10702]: Failed password for alice from 203.0.113.99 port 60108 ssh2
+Oct 21 10:30:12 webserver sshd[10703]: Connection closed by 203.0.113.99 port 60108 [preauth]
+Oct 21 11:00:00 webserver CRON[11000]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
+Oct 21 11:00:01 webserver CRON[11000]: pam_unix(cron:session): session closed for user root
+Oct 21 12:00:00 webserver sshd[11100]: Accepted publickey for deploy from 192.0.2.50 port 55300 ssh2
+Oct 21 12:00:01 webserver sshd[11100]: pam_unix(sshd:session): session opened for user deploy(uid=1001) by (uid=0)
+Oct 21 12:30:00 webserver sshd[11100]: pam_unix(sshd:session): session closed for user deploy
+Oct 21 14:00:00 webserver sshd[11200]: Failed password for invalid user admin from 198.51.100.80 port 33200 ssh2
+Oct 21 14:00:03 webserver sshd[11201]: Failed password for invalid user administrator from 198.51.100.80 port 33204 ssh2
+Oct 21 14:00:06 webserver sshd[11202]: Failed password for invalid user root from 198.51.100.80 port 33208 ssh2
+Oct 21 14:00:09 webserver sshd[11203]: Invalid user webmaster from 198.51.100.80 port 33212
+Oct 21 14:00:12 webserver sshd[11204]: Failed password for invalid user webmaster from 198.51.100.80 port 33212 ssh2
+Oct 21 14:00:15 webserver sshd[11205]: Connection closed by 198.51.100.80 port 33212 [preauth]
+Oct 21 16:00:00 webserver sshd[11300]: Accepted publickey for bob from 192.0.2.75 port 55400 ssh2
+Oct 21 16:00:01 webserver sshd[11300]: pam_unix(sshd:session): session opened for user bob(uid=1003) by (uid=0)
+Oct 21 17:30:00 webserver sshd[11300]: pam_unix(sshd:session): session closed for user bob
+Oct 21 18:00:00 webserver sshd[11400]: Failed password for root from 203.0.113.10 port 42300 ssh2
+Oct 21 18:00:03 webserver sshd[11401]: Failed password for root from 203.0.113.10 port 42304 ssh2
+Oct 21 18:00:06 webserver sshd[11402]: Failed password for deploy from 203.0.113.10 port 42308 ssh2
+Oct 21 18:00:09 webserver sshd[11403]: Failed password for alice from 203.0.113.10 port 42312 ssh2
+Oct 21 18:00:12 webserver sshd[11404]: Failed password for bob from 203.0.113.10 port 42316 ssh2
+Oct 21 22:00:00 webserver sshd[11500]: Accepted publickey for deploy from 192.0.2.50 port 55500 ssh2
+Oct 21 22:00:01 webserver sshd[11500]: pam_unix(sshd:session): session opened for user deploy(uid=1001) by (uid=0)
+Oct 21 22:30:00 webserver sshd[11500]: pam_unix(sshd:session): session closed for user deploy
