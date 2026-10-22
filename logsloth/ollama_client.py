@@ -16,7 +16,7 @@ import requests
 
 
 _DEFAULT_BASE_URL = "http://localhost:11434"
-_DEFAULT_MODEL = "qwen2.5:7b"
+_DEFAULT_MODEL = "qwen2.5:1.5b"
 _TIMEOUT_HEALTH = 5        # seconds for connectivity check
 _TIMEOUT_GENERATE = 300    # seconds for model generation (large logs)
 
@@ -79,10 +79,16 @@ class OllamaClient:
                 status.available_models = [
                     m["name"] for m in data.get("models", [])
                 ]
-                # Check if our model matches (with or without :latest tag)
-                model_base = self.model.split(":")[0]
+                # Check if our model matches (exact tag, or implicit :latest)
+                target_base = self.model.split(":")[0]
+                target_tag = self.model.split(":")[1] if ":" in self.model else "latest"
                 for m in status.available_models:
-                    if m == self.model or m.startswith(model_base + ":"):
+                    m_base = m.split(":")[0]
+                    m_tag = m.split(":")[1] if ":" in m else "latest"
+                    if m == self.model:
+                        status.model_available = True
+                        break
+                    if m_base == target_base and m_tag == target_tag:
                         status.model_available = True
                         break
                 if not status.model_available:

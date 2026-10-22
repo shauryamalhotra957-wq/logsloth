@@ -1,7 +1,7 @@
 ---
 title: "LogSloth: I Built a Local AI That Reads Your Auth Logs So You Don't Have To 🦥"
 published: false
-description: "A local-first SSH log analyzer that uses Qwen2.5 7B via Ollama to produce evidence-grounded security briefings — without sending your logs anywhere."
+description: "A local-first SSH log analyzer that uses Qwen2.5 via Ollama to produce evidence-grounded security briefings — without sending your logs anywhere."
 tags: devchallenge, hf26challenge, ai, opensource
 ---
 
@@ -15,7 +15,7 @@ LogSloth solves this with a strictly local pipeline:
 
 1. **Deterministic parsing** — Regex-based extraction identifies failed passwords, accepted logins, invalid users, brute-force patterns, and session events. Every event gets a stable ID (E001, E002, …) and a source-line reference. The parser handles counting and fact extraction — the LLM never invents events.
 
-2. **Local AI analysis** — The parsed events are sent to **Qwen2.5 7B** running locally via **Ollama**. The model produces a structured JSON report: an executive summary, a review priority (Low/Medium/High), findings with evidence citations, safe recommendations, and explicit limitations.
+2. **Local AI analysis** — The parsed events are sent to **Qwen2.5** (1.5B default, with 7B fully supported) running locally via **Ollama**. The model produces a structured JSON report: an executive summary, a review priority (Low/Medium/High), findings with evidence citations, safe recommendations, and explicit limitations.
 
 3. **Evidence validation** — Before displaying results, LogSloth checks every event ID the model cites. If the model references `E999` but only 50 events exist, that citation is stripped and flagged. No fabricated evidence reaches the user.
 
@@ -36,7 +36,7 @@ LogSloth channels the spirit of the sloth 🦥: instead of frantically scrolling
 
 **Step 2: Review parse results** — See metrics at a glance: total lines, events parsed, unrecognized lines. Drill into event-type breakdowns, top source IPs, and username frequency.
 
-**Step 3: Run AI analysis** — Click "Analyze with Local AI." The parsed events are sent to Qwen2.5 7B running locally via Ollama. The model returns a structured security briefing.
+**Step 3: Run AI analysis** — Click "Analyze with Local AI." The parsed events are sent to Qwen2.5 running locally via Ollama. The model returns a structured security briefing.
 
 **Step 4: Review findings** — Each finding includes a title, description, severity, and evidence IDs that link back to specific parsed events. The executive summary and priority rating give you an instant overview.
 
@@ -60,8 +60,8 @@ The key architectural decision is **parsing before prompting**: the LLM receives
 
 - **Python 3.12** + **Streamlit** for the web UI
 - **Ollama** for local model inference
-- **Qwen2.5 7B** (Apache 2.0) as the default open-weight model
-- **pytest** for automated testing (40+ tests covering parser, analyzer, schemas, privacy invariants)
+- **Qwen2.5 1.5B/7B** (Apache 2.0) as the open-weight model family
+- **pytest** for automated testing (50+ tests covering parser, analyzer, schemas, privacy invariants)
 
 ### What Was Tested
 
@@ -97,4 +97,4 @@ This is a project where open-source AI isn't a nice-to-have — it's a *requirem
 
 *Built for Hacktoberfest 2026 Week 3: Slow and Steady 🦥*
 
-*LogSloth project code is MIT licensed. Qwen2.5 7B model is Apache 2.0 licensed by Alibaba Cloud.*
+*LogSloth project code is MIT licensed. Qwen2.5 models are Apache 2.0 licensed by Alibaba Cloud.*

@@ -263,7 +263,23 @@ class TestOllamaClientMocked:
             resp = MagicMock()
             resp.status_code = 200
             if "/api/tags" in url:
-                resp.json.return_value = {"models": [{"name": "qwen2.5:7b"}]}
+                resp.json.return_value = {"models": [{"name": "qwen2.5:1.5b"}]}
+            else:
+                resp.text = "Ollama is running"
+            return resp
+        mock_get.side_effect = side_effect
+        client = OllamaClient(model="qwen2.5:1.5b")
+        status = client.check_status()
+        assert status.server_reachable
+        assert status.model_available
+
+    @patch("logsloth.ollama_client.requests.get")
+    def test_check_status_different_tag_does_not_falsely_match(self, mock_get):
+        def side_effect(url, **kwargs):
+            resp = MagicMock()
+            resp.status_code = 200
+            if "/api/tags" in url:
+                resp.json.return_value = {"models": [{"name": "qwen2.5:1.5b"}, {"name": "qwen2.5:0.5b"}]}
             else:
                 resp.text = "Ollama is running"
             return resp
@@ -271,7 +287,12 @@ class TestOllamaClientMocked:
         client = OllamaClient(model="qwen2.5:7b")
         status = client.check_status()
         assert status.server_reachable
-        assert status.model_available
+        assert not status.model_available
+        assert "qwen2.5:7b" in status.error
+
+    def test_default_model_is_qwen2_5_1_5b(self):
+        client = OllamaClient()
+        assert client.model == "qwen2.5:1.5b"
 
     @patch("logsloth.ollama_client.requests.post")
     def test_generate_success(self, mock_post):
@@ -512,3 +533,98 @@ class TestExport:
         fr = FullReport(app_version="0.1.0")
         data = json.loads(fr.to_json())
         assert "privacy_note" in data
+
+    def test_markdown_export_handles_string_recommendations_without_splitting(self):
+        fr = FullReport(
+            app_version="0.1.0",
+            analysis={
+                "recommendations": "Enforce key-based authentication only.",
+            },
+        )
+        md = fr.to_markdown()
+        assert "- Enforce key-based authentication only." in md
+        # Verify it was not split into individual letters
+        assert "- E\n- n\n- f" not in md
+
+
+# -----------------------------------------------------------------------
+# Recommendation Normalization Regression Tests
+# -----------------------------------------------------------------------
+
+from logsloth.analyzer import _normalize_recommendations, _build_event_table, _build_prompt
+
+
+class TestRecommendationNormalization:
+    def test_single_string_normalized_to_list(self):
+        raw = "Implement MFA and disable direct root SSH access."
+        recs = _normalize_recommendations(raw)
+        assert isinstance(recs, list)
+        assert len(recs) == 1
+        assert recs[0] == "Implement MFA and disable direct root SSH access."
+
+    def test_multiline_string_normalized_to_multiple_items(self):
+        raw = "1. Disable password login\n2. Block IP 203.0.113.10\n3. Use SSH keys"
+        recs = _normalize_recommendations(raw)
+        assert isinstance(recs, list)
+        assert len(recs) == 3
+        assert recs[0] == "Disable password login"
+        assert recs[1] == "Block IP 203.0.113.10"
+        assert recs[2] == "Use SSH keys"
+
+    def test_list_with_bullets_and_numbers_cleaned(self):
+        raw = ["- Disable root password", "• Require MFA", "1. Audit sudo permissions"]
+        recs = _normalize_recommendations(raw)
+        assert recs == ["Disable root password", "Require MFA", "Audit sudo permissions"]
+
+    def test_dict_recommendations_extracted(self):
+        raw = [{"action": "Enable fail2ban"}, {"recommendation": "Rotate keys"}]
+        recs = _normalize_recommendations(raw)
+        assert recs == ["Enable fail2ban", "Rotate keys"]
+
+    def test_empty_or_none_recommendations(self):
+        assert _normalize_recommendations(None) == []
+        assert _normalize_recommendations("") == []
+        assert _normalize_recommendations([]) == []
+
+
+# -----------------------------------------------------------------------
+# Evidence Grounding Prompt Tests
+# -----------------------------------------------------------------------
+
+class TestEvidenceGrounding:
+    def test_event_table_contains_extracted_ips_and_targeted_users(self):
+        summary = parse_logs(_sample_text())
+        table = _build_event_table(summary)
+        
+        # Must contain the high-failure attacking IPs identified by parser
+        assert "203.0.113.10" in table
+        assert "198.51.100.25" in table
+        assert "203.0.113.45" in table
+        
+        # Must contain successful logins table
+        assert "Verified Successful Authentication Events:" in table
+        assert "deploy" in table
+        assert "alice" in table
+        assert "bob" in table
+        
+        # Must contain high-failure breakdown
+        assert "Verified Source IPs with Failed Authentication Attempts:" in table
+
+    def test_prompt_includes_evidence_grounding_instructions(self):
+        summary = parse_logs(_sample_text())
+        prompt = _build_prompt(summary)
+        assert "EVIDENCE-GROUNDING INSTRUCTIONS" in prompt
+        assert "Do NOT state that the logs lack source IP or username information" in prompt
+        assert "genuine investigative boundaries" in prompt
+
+    def test_limitations_false_disclaimer_sanitized(self):
+        data = {
+            "executive_summary": "Test summary",
+            "review_priority": "Medium",
+            "findings": [{"title": "T", "description": "D", "evidence_ids": ["E001"]}],
+            "recommendations": ["Do something"],
+            "limitations": "The logs do not provide information on the source IP or username of the attacker, nor can we confirm.",
+        }
+        report, warnings = _validate_report(data, {"E001"})
+        assert "While source IPs and usernames are recorded in these logs" in report.limitations
+        assert "cannot confirm the true physical identity" in report.limitations

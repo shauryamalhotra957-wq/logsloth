@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-- Ollama running locally with `qwen2.5:7b` pulled
+- Ollama running locally with `qwen2.5:1.5b` pulled (or `qwen2.5:7b`)
 - LogSloth installed and launched (`streamlit run app.py`)
 
 ## Script

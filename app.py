@@ -43,8 +43,8 @@ st.markdown("""
     :root {
         --logsloth-green: #2e7d32;
         --logsloth-green-light: #4caf50;
-        --logsloth-bg: #fafafa;
-        --logsloth-card: #ffffff;
+        --logsloth-bg: #1e1e1e;
+        --logsloth-card: rgba(255, 255, 255, 0.05);
     }
 
     /* Header */
@@ -57,7 +57,7 @@ st.markdown("""
         margin-bottom: 0.2rem;
     }
     .logsloth-tagline {
-        color: #666;
+        color: #a0aec0;
         font-size: 1.05rem;
         margin-bottom: 0.5rem;
     }
@@ -65,65 +65,111 @@ st.markdown("""
     /* Status badges */
     .status-badge {
         display: inline-block;
-        padding: 0.25rem 0.75rem;
+        padding: 0.3rem 0.85rem;
         border-radius: 1rem;
         font-size: 0.85rem;
         font-weight: 600;
     }
-    .badge-connected { background: #e8f5e9; color: #2e7d32; }
-    .badge-disconnected { background: #ffebee; color: #c62828; }
+    .badge-connected {
+        background: rgba(46, 125, 50, 0.25);
+        color: #81c784 !important;
+        border: 1px solid rgba(76, 175, 80, 0.5);
+    }
+    .badge-disconnected {
+        background: rgba(198, 40, 40, 0.25);
+        color: #ef9a9a !important;
+        border: 1px solid rgba(229, 115, 115, 0.5);
+    }
 
     /* Priority badges */
-    .priority-low { background: #e8f5e9; color: #2e7d32; padding: 0.3rem 1rem; border-radius: 0.5rem; font-weight: 700; display: inline-block; }
-    .priority-medium { background: #fff3e0; color: #e65100; padding: 0.3rem 1rem; border-radius: 0.5rem; font-weight: 700; display: inline-block; }
-    .priority-high { background: #ffebee; color: #c62828; padding: 0.3rem 1rem; border-radius: 0.5rem; font-weight: 700; display: inline-block; }
-
-    /* Cards */
-    .metric-card {
-        background: var(--logsloth-card);
-        border: 1px solid #e0e0e0;
-        border-radius: 0.75rem;
-        padding: 1rem 1.25rem;
-        text-align: center;
-    }
-    .metric-card .metric-value {
-        font-size: 1.8rem;
+    .priority-low {
+        background: rgba(46, 125, 50, 0.25);
+        color: #81c784 !important;
+        border: 1px solid rgba(76, 175, 80, 0.5);
+        padding: 0.35rem 1rem;
+        border-radius: 0.5rem;
         font-weight: 700;
-        color: #333;
+        display: inline-block;
     }
-    .metric-card .metric-label {
-        font-size: 0.85rem;
-        color: #888;
-        margin-top: 0.2rem;
+    .priority-medium {
+        background: rgba(230, 81, 0, 0.25);
+        color: #ffb74d !important;
+        border: 1px solid rgba(255, 167, 38, 0.5);
+        padding: 0.35rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        display: inline-block;
+    }
+    .priority-high {
+        background: rgba(198, 40, 40, 0.25);
+        color: #ef9a9a !important;
+        border: 1px solid rgba(229, 115, 115, 0.5);
+        padding: 0.35rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        display: inline-block;
     }
 
-    /* Privacy notice */
+    /* Privacy & Info notice box - accessible in dark and light themes */
     .privacy-notice {
-        background: #e8f5e9;
-        border-left: 4px solid #2e7d32;
-        padding: 0.75rem 1rem;
+        background: rgba(46, 125, 50, 0.18);
+        border: 1px solid rgba(76, 175, 80, 0.4);
+        border-left: 4px solid #4caf50;
+        color: #e2f1e4 !important;
+        padding: 0.85rem 1.15rem;
         border-radius: 0 0.5rem 0.5rem 0;
-        font-size: 0.9rem;
+        font-size: 0.92rem;
+        line-height: 1.6;
         margin-top: 0.5rem;
     }
+    .privacy-notice strong {
+        color: #81c784 !important;
+    }
+    .privacy-notice em {
+        color: #c8e6c9 !important;
+    }
 
-    /* Finding card */
-    .finding-card {
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin-bottom: 0.75rem;
+    /* Recommendations list readability */
+    .recommendations-box ul {
+        padding-left: 1.5rem;
+        margin-top: 0.5rem;
+    }
+    .recommendations-box li {
+        margin-bottom: 0.55rem;
+        line-height: 1.65;
+        white-space: normal;
+        word-break: normal;
+        overflow-wrap: break-word;
     }
 
     /* Footer */
     .logsloth-footer {
         text-align: center;
-        color: #999;
-        font-size: 0.8rem;
+        color: #888;
+        font-size: 0.82rem;
         padding: 2rem 0 1rem 0;
-        border-top: 1px solid #eee;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
         margin-top: 2rem;
+        line-height: 1.6;
+    }
+
+    /* Light theme overrides */
+    @media (prefers-color-scheme: light) {
+        .logsloth-tagline { color: #555; }
+        .privacy-notice {
+            background: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-left: 4px solid #2e7d32;
+            color: #1b5e20 !important;
+        }
+        .privacy-notice strong { color: #0b3d11 !important; }
+        .privacy-notice em { color: #1b5e20 !important; }
+        .badge-connected { background: #e8f5e9; color: #2e7d32 !important; border-color: #a5d6a7; }
+        .badge-disconnected { background: #ffebee; color: #c62828 !important; border-color: #ffcdd2; }
+        .priority-low { background: #e8f5e9; color: #2e7d32 !important; border-color: #a5d6a7; }
+        .priority-medium { background: #fff3e0; color: #e65100 !important; border-color: #ffe0b2; }
+        .priority-high { background: #ffebee; color: #c62828 !important; border-color: #ffcdd2; }
+        .logsloth-footer { border-top: 1px solid #e0e0e0; color: #666; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -157,7 +203,7 @@ def load_sample() -> str:
 
 def get_ollama_client() -> OllamaClient:
     base_url = st.session_state.get("ollama_url", "http://localhost:11434")
-    model = st.session_state.get("ollama_model", "qwen2.5:7b")
+    model = st.session_state.get("ollama_model", "qwen2.5:1.5b")
     return OllamaClient(base_url=base_url, model=model)
 
 
@@ -194,9 +240,11 @@ with st.sidebar:
     available = init_status.available_models or []
 
     if available:
-        # Prefer qwen2.5:7b if present, then any qwen2.5 variant, else first
+        # Prefer qwen2.5:1.5b if present, then qwen2.5:7b, then any qwen2.5, else first
         default_idx = 0
-        if "qwen2.5:7b" in available:
+        if "qwen2.5:1.5b" in available:
+            default_idx = available.index("qwen2.5:1.5b")
+        elif "qwen2.5:7b" in available:
             default_idx = available.index("qwen2.5:7b")
         else:
             qwen_matches = [i for i, m in enumerate(available) if m.startswith("qwen2.5")]
@@ -210,14 +258,14 @@ with st.sidebar:
             help="Select an installed local model or enter a custom identifier.",
         )
         if selected_option == "Custom model...":
-            model_name = st.text_input("Custom Model Identifier", value="qwen2.5:7b")
+            model_name = st.text_input("Custom Model Identifier", value="qwen2.5:1.5b")
         else:
             model_name = selected_option
     else:
         model_name = st.text_input(
             "Model",
-            value=st.session_state.get("ollama_model", "qwen2.5:7b"),
-            help="Open-weight model identifier. Default: qwen2.5:7b",
+            value=st.session_state.get("ollama_model", "qwen2.5:1.5b"),
+            help="Open-weight model identifier. Default: qwen2.5:1.5b",
         )
 
     st.session_state.ollama_model = model_name
@@ -256,7 +304,7 @@ with st.sidebar:
    ```
 3. **Pull the model:**
    ```bash
-   ollama pull qwen2.5:7b
+   ollama pull qwen2.5:1.5b
    ```
 4. Refresh this page.
 """)
@@ -274,7 +322,8 @@ Nothing is sent to external servers. The AI model runs locally via Ollama.<br><b
     st.markdown("---")
     st.caption(f"LogSloth v{__version__}")
     st.caption("Open-source · MIT License")
-    st.caption("Model: Qwen2.5 7B (Apache 2.0)")
+    st.caption(f"Active Model: {client.model}")
+    st.caption("Model License: Apache 2.0 (Alibaba Cloud)")
 
 
 # ---------------------------------------------------------------------------
@@ -478,8 +527,15 @@ if summary is not None:
         # Recommendations
         if report.recommendations:
             st.markdown("### ✅ Recommendations")
-            for rec in report.recommendations:
-                st.markdown(f"- {rec}")
+            recs = [report.recommendations] if isinstance(report.recommendations, str) else list(report.recommendations)
+            cleaned_recs = [
+                re.sub(r"^[\s\-*•\d\.\)]+", "", str(r)).strip()
+                for r in recs
+                if str(r).strip()
+            ]
+            if cleaned_recs:
+                recs_md = "\n".join(f"- {r}" for r in cleaned_recs)
+                st.markdown(f'<div class="recommendations-box">\n\n{recs_md}\n\n</div>', unsafe_allow_html=True)
 
         # Limitations
         if report.limitations:
@@ -539,7 +595,7 @@ st.markdown("""
 st.markdown("""
 <div class="logsloth-footer">
     🦥 LogSloth v""" + __version__ + """ · Built for Hacktoberfest 2026 · MIT License<br>
-    Model: Qwen2.5 7B (Apache 2.0) · Powered by Ollama<br>
+    Active Model: """ + client.model + """ (Apache 2.0) · Powered by Ollama<br>
     <em>"Slow and steady wins the race — especially when reading auth logs."</em>
 </div>
 """, unsafe_allow_html=True)

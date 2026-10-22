@@ -39,9 +39,9 @@ in seconds, entirely on your local machine.
    and source-line references.
 
 2. **Local AI analysis** via Ollama sends the parsed events to an open-weight
-   model (Qwen2.5 7B by default) to generate a structured report: executive
-   summary, priority rating, findings with evidence citations, recommendations,
-   and acknowledged limitations.
+   model (Qwen2.5 1.5B by default, with 7B fully supported) to generate a structured
+   report: executive summary, priority rating, findings with evidence citations,
+   recommendations, and acknowledged limitations.
 
 3. **Evidence validation** ensures the model can only reference events that
    actually exist in the parsed data. Fabricated event IDs are stripped and
@@ -53,7 +53,7 @@ in seconds, entirely on your local machine.
 ## Features
 
 - 🔒 **Local-first** — Logs never leave your machine. No API keys, no accounts, no telemetry.
-- 🧠 **Open-weight AI** — Uses Qwen2.5 7B (Apache 2.0) via Ollama. Swap any compatible model.
+- 🧠 **Open-weight AI** — Uses Qwen2.5 1.5B by default (Apache 2.0) via Ollama; easily switch to 7B or any local model.
 - 🔍 **Deterministic parsing** — Regex-based extraction with stable event IDs. The LLM never invents facts.
 - ✅ **Evidence validation** — Every model citation is checked against real parsed events.
 - 📊 **Structured dashboard** — Parse metrics, event breakdowns, IP/user frequency, findings with severity.
@@ -148,7 +148,10 @@ pip install -r requirements.txt
 # Start Ollama (if not already running)
 ollama serve
 
-# Pull the default model (in a separate terminal)
+# Pull the default lightweight model
+ollama pull qwen2.5:1.5b
+
+# Optional: pull the 7B model for higher parameter capacity
 ollama pull qwen2.5:7b
 ```
 
@@ -224,10 +227,10 @@ This project is licensed under the **MIT License** — see [LICENSE](LICENSE).
 
 ### Model License
 
-LogSloth uses **Qwen2.5 7B** by default, released under the **Apache License 2.0**
+LogSloth uses the **Qwen2.5** family by default (`qwen2.5:1.5b` default, `qwen2.5:7b` supported), released under the **Apache License 2.0**
 by Alibaba Cloud.
 
-- Model: [Qwen/Qwen2.5-7B](https://huggingface.co/Qwen/Qwen2.5-7B)
+- Models: [Qwen/Qwen2.5-1.5B](https://huggingface.co/Qwen/Qwen2.5-1.5B) / [Qwen/Qwen2.5-7B](https://huggingface.co/Qwen/Qwen2.5-7B)
 - License: [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
 The model license is separate from this project's MIT license.
@@ -251,4 +254,4 @@ read, not a panicked scroll.
 
 ---
 
-*Built with Python, Streamlit, Ollama, and Qwen2.5 7B.*
+*Built with Python, Streamlit, Ollama, and Qwen2.5 (Apache 2.0).*

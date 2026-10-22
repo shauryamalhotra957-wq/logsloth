@@ -150,10 +150,13 @@ class FullReport:
                     lines.append(f"**Severity:** {f.get('severity', 'informational')}\n")
 
             recs = a.get("recommendations", [])
+            if isinstance(recs, str):
+                recs = [recs]
             if recs:
                 lines.append("## Recommendations\n")
                 for r in recs:
-                    lines.append(f"- {r}")
+                    if str(r).strip():
+                        lines.append(f"- {str(r).strip()}")
                 lines.append("")
 
             lim = a.get("limitations", "")
