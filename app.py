@@ -181,20 +181,48 @@ def severity_emoji(sev: str) -> str:
 with st.sidebar:
     st.markdown("## ⚙️ Configuration")
 
-    st.text_input(
+    ollama_url = st.text_input(
         "Ollama URL",
-        value="http://localhost:11434",
-        key="ollama_url",
+        value=st.session_state.get("ollama_url", "http://localhost:11434"),
         help="Local Ollama API endpoint. Default: http://localhost:11434",
     )
-    st.text_input(
-        "Model",
-        value="qwen2.5:7b",
-        key="ollama_model",
-        help="Open-weight model identifier. Default: qwen2.5:7b",
-    )
+    st.session_state.ollama_url = ollama_url
 
-    # Connection check
+    # Check server status to detect available models
+    temp_client = OllamaClient(base_url=ollama_url)
+    init_status = temp_client.check_status()
+    available = init_status.available_models or []
+
+    if available:
+        # Prefer qwen2.5:7b if present, then any qwen2.5 variant, else first
+        default_idx = 0
+        if "qwen2.5:7b" in available:
+            default_idx = available.index("qwen2.5:7b")
+        else:
+            qwen_matches = [i for i, m in enumerate(available) if m.startswith("qwen2.5")]
+            if qwen_matches:
+                default_idx = qwen_matches[0]
+
+        selected_option = st.selectbox(
+            "Model",
+            options=available + ["Custom model..."],
+            index=default_idx,
+            help="Select an installed local model or enter a custom identifier.",
+        )
+        if selected_option == "Custom model...":
+            model_name = st.text_input("Custom Model Identifier", value="qwen2.5:7b")
+        else:
+            model_name = selected_option
+    else:
+        model_name = st.text_input(
+            "Model",
+            value=st.session_state.get("ollama_model", "qwen2.5:7b"),
+            help="Open-weight model identifier. Default: qwen2.5:7b",
+        )
+
+    st.session_state.ollama_model = model_name
+
+    # Connection check with the chosen model
     st.markdown("### 🔌 Model Status")
     client = get_ollama_client()
     status = client.check_status()

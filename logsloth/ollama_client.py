@@ -105,6 +105,7 @@ class OllamaClient:
         prompt: str,
         system: Optional[str] = None,
         temperature: float = 0.3,
+        format: Optional[str] = "json",
         timeout: int = _TIMEOUT_GENERATE,
     ) -> tuple[str, float]:
         """
@@ -120,6 +121,8 @@ class OllamaClient:
                 "temperature": temperature,
             },
         }
+        if format:
+            payload["format"] = format
         if system:
             payload["system"] = system
 

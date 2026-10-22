@@ -121,10 +121,24 @@ def _build_prompt(summary: ParseSummary) -> str:
     """Assemble the full user prompt."""
     event_table = _build_event_table(summary)
     return (
-        "Analyze the following pre-parsed SSH authentication log events and "
-        "produce a structured security briefing.\n\n"
+        "Analyze the following pre-parsed SSH authentication log events and produce a structured security briefing.\n\n"
         f"{event_table}\n\n"
-        "Respond with ONLY the JSON object described in your instructions."
+        "CRITICAL: You MUST respond with ONLY a valid JSON object matching this structure:\n"
+        "{\n"
+        '  "executive_summary": "2-3 sentences summarizing key security observations",\n'
+        '  "review_priority": "Low" | "Medium" | "High",\n'
+        '  "findings": [\n'
+        "    {\n"
+        '      "title": "Short title describing the observed pattern",\n'
+        '      "description": "Why this pattern matters and what was observed",\n'
+        '      "evidence_ids": ["E001", "E002"],\n'
+        '      "severity": "informational" | "low" | "medium" | "high"\n'
+        "    }\n"
+        "  ],\n"
+        '  "recommendations": ["Safe practical recommended step"],\n'
+        '  "limitations": "Explicit uncertainty and what cannot be confirmed"\n'
+        "}\n\n"
+        "Do not output markdown fences or explanatory text. Return the JSON object directly."
     )
 
 
@@ -153,6 +167,17 @@ def _validate_report(
     Build an AnalysisReport from parsed JSON, validating evidence IDs.
     Returns (report, warnings).
     """
+    if not isinstance(data, dict):
+        raise RuntimeError(f"Model output must be a JSON object, got {type(data).__name__}")
+
+    exec_sum = data.get("executive_summary")
+    findings = data.get("findings")
+    if not exec_sum and not findings:
+        raise RuntimeError(
+            "Model response was malformed (missing 'executive_summary' and 'findings'). "
+            "Please retry analysis."
+        )
+
     warnings: list[str] = []
 
     report = AnalysisReport(

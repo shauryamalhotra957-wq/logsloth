@@ -358,10 +358,15 @@ class TestValidateReport:
         assert len(warnings) == 1
 
     def test_invalid_priority_defaults(self):
-        data = {"review_priority": "CRITICAL"}
+        data = {"review_priority": "CRITICAL", "executive_summary": "Some summary"}
         report, warnings = _validate_report(data, set())
         assert report.review_priority == "Medium"
         assert len(warnings) == 1
+
+    def test_malformed_missing_summary_and_findings_raises(self):
+        data = {"unexpected_key": "unexpected_value"}
+        with pytest.raises(RuntimeError, match="malformed"):
+            _validate_report(data, set())
 
 
 class TestAnalyzerMocked:
